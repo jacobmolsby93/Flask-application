@@ -1,4 +1,5 @@
 import os
+import json
 from flask import Flask, render_template
 
 
@@ -8,13 +9,17 @@ app = Flask(__name__)
 # @ == decorator
 @app.route("/")
 def index():
-    # Flask expects the index.html file to be located in a folder called --> templates <--
+    # Flask expects the index.html file to be located in a folder called templates
     return render_template("index.html")
 
 
 @app.route("/about")
 def about():
-    return render_template("about.html", page_title="About", list_of_numbers=[1, 2, 3])
+    data = []
+    # open company.json and asign it to a new variable called json_data.
+    with open("data/company.json", "r") as json_data:
+        data = json.load(json_data)
+    return render_template("about.html", page_title="About", company=data)
 
 
 @app.route("/contact")

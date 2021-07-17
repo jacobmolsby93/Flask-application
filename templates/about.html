@@ -1,10 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
 
-<!-- The % is for statements, and only 1 set of curly braces -->
+<!-- The % is for statements, and only 1 set of curly braces
 {% for number in list_of_numbers %}
     <p>{{ number }}</p>
 {% endfor %}
+
+-->
+<!-- targeting 1 json object
+    {{ company[1]["name"] }}
+-->
+
+
 <h2>{{ page_title }}</h2>
 <p>
     The formation of the group grew out of a meeting Gandalf had with Thorin in Bree which kindled Thorin's interest in
@@ -15,41 +22,45 @@
     action. The superstitious Dwarves also considered thirteen to be an unlucky number, and as Gandalf had planned to
     leave on other business, welcomed a fourteenth to fill into their party.
 </p>
-<div class="row featurette">
-    <div class="col-md-7">
-        <h3>Thorin Oakenshield</h3>
-        <p>
-            Thorin II was born in TA 2746 to Dwarven prince Thráin II in the city of The Lonely Mountain. Early in his
-            youth, he and the other Dwarves of the Lonely Mountain were forced to flee by the dragon Smaug in TA 2770.
-            While in exile, he quickly grew to become a capable warrior. This was demonstrated when he participated in
-            the Battle of Azanulbizar in TA 2799. He fought with one of the Dwarven armies beneath the East-gate of
-            Moria. At some point in the fighting, his shield broke, and using an oaken tree branch found on the floor as
-            a shield, he gained the epithet "Oakenshield," which would remain with him even in death.[2]
 
-            Thorin eventually became King-in-Exile of Durin's Folk after his father went missing, and died in the
-            dungeons of Dol Guldur.
-        </p>
-    </div>
-    <div class="col-md-5">
-        <img src="https://static.wikia.nocookie.net/lotr/images/3/3f/ThorinBIG.jpg" alt="Thorin with a sword">
-    </div>
-</div>
+{% for member in company %}
 
-<div class="row featurette">
-    <div class="col-md-5">
-        <img src="https://static.wikia.nocookie.net/lotr/images/b/b4/The-Hobbit-Fili-and-Kili.jpg" alt="Fili and Kili">
-    </div>
-    <div class="col-md-7">
-        <h3>Fili &amp; Kili</h3>
-        <p>
-            Fíli and Kíli were nephews of Thorin, who was the elder brother of their mother Dís. They were also nephews
-            of Frerin, grandsons of Thráin II, and great-grandsons of Thrór. Fíli's most distinguishing feature was his
-            long nose, the longest of any of the Dwarves in Thorin's company.[2]
+<!-- jinja object "loop.index" shows which iteration of the loop its on -->
 
-            As the youngest Dwarves, Fíli and Kíli had the sharpest eyes, and were often sent scouting or searching. It
-            was they that found the Front Porch while in the Misty Mountains.[3]
-        </p>
+    <div class="row featurette">
+        
+        <!-- if loop.index is a odd number show it  -->
+        {% if loop.index % 2 != 0 %}
+
+            <div class="col-md-7">
+                <h3>{{ loop.index }}. {{ member.name }}</h3>
+                <p> {{ member.description }} </p>
+            </div>
+            <div class="col-md-5">
+                <img src="{{ member.image_source }}" alt="" class="featurette-image image-responsive">
+            </div>
+        
+        {% else %}
+            
+            <div class="col-md-5">
+                <img src="{{ member.image_source }}" alt="" class="featurette-image image-responsive">
+            </div>
+            <div class="col-md-7">
+                <h3>{{ loop.index }}. {{ member.name }}</h3>
+                <p> {{ member.description }} </p>
+            </div>
+
+        {% endif %}
+
     </div>
-</div>
+
+    <!-- Dont display hr after the last item -->
+    {% if loop.index != loop.length %}
+
+        <hr class="featurette-divider">
+
+    {% endif %}
+
+{% endfor %}
 
 {% endblock %}
